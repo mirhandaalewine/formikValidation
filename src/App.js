@@ -1,39 +1,36 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+// TODO: import useFormik from formik library
 import {useFormik} from 'formik';
 
 function App() {
+  // TODO: add a const called formik assigned to useFormik()
   const formik = useFormik({
-    initialValues:{
-      name: '',
+    initialValues: {
       email: '',
       password: ''
-    }, 
-    onSubmit: values => {
-      console.log('form:', values);
     },
-    validate: values=> {
+    onSubmit: values => {
+      alert('Login Successful');
+    },
+    validate: (values) => {
       let errors = {};
-      if(!values.name) errors.name = 'Required';
-      if(!values.email) errors.email = 'Required';
-      if(!values.password) errors.password = 'Required';
+      if (!values.email) errors.email = "field required";
+      if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) errors.email = 'username should be an email';
+      if (!values.password) errors.password = "field required";
       return errors;
-    }
+    },
   });
+
   return (
     <div>
-      <form onSubmit={formik.handleSubmit}>
-      <div>Name</div>
-      <input name="name" type="text" onChange={formik.handleChange} value={formik.values.name}/>
-      {formik.errors.name ? <div style={{color:'red'}}>{formik.errors.name}</div>: null}
-      <div>Email</div>
-      <input name="email" type="text" onChange={formik.handleChange} value={formik.values.email}/>
-      {formik.errors.email ? <div style={{color:'red'}}>{formik.errors.email}</div>: null}
-      <div>Password</div>
-      <input name="password" type="text" onChange={formik.handleChange} value={formik.values.password}/>
-      {formik.errors.password ? <div style={{color:'red'}}>{formik.errors.password}</div>: null}
-      <button type="submit">Submit</button>
-      </form>
+      <form onSubmit= {formik.handleSubmit}></form>
+        <div>Email</div>
+        <input id="emailField" type="text" name="email" onChange={formik.handleChange} value={formik.values.email} />
+        <div>Password</div>
+        {formik.errors.email ? ( <div id="emailError" style={{ color: "red" }}>{formik.errors.email}</div>) : null}
+        <input id="pswField" type="text" name="password" onChange={formik.handleChange} value={formik.values.password} />
+        {formik.errors.password ? ( <div id="pswError" style={{ color: "red" }}>{formik.errors.password}</div>) : null}
+        <button id="submitBtn" type="submit">Submit</button>
     </div>
   );
 }
